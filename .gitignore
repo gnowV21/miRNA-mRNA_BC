@@ -1,0 +1,7 @@
+data/
+*.parquet
+*.csv
+*.xlsx
+*.tar.gz
+.ipynb_checkpoints/
+_tam/
