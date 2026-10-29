@@ -2,7 +2,7 @@
 
 Khóa luận tốt nghiệp: **Xây dựng mô hình tiên lượng tái phát ung thư vú bộ ba âm tính dựa trên đặc trưng cặp tương tác miRNA–mRNA và so sánh với biểu diễn từ mô hình nền tảng phiên mã**
 
-Sinh viên: Trần Nguyễn Tiến Vương (23180211, 23CSH3) · Khoa Sinh học – Công nghệ Sinh học, HCMUS
+ Trần Nguyễn Tiến Vương  * Khoa Sinh học – Công nghệ Sinh học, HCMUS * 
 
 ## Cấu trúc thư mục
 
