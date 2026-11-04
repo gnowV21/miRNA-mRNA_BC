@@ -1,0 +1,66 @@
+{
+  "TCGA-CDR": {
+    "file": "data\\TCGA-CDR-SupplementalTableS1.xlsx",
+    "md5": "a4591b2dcee39591f59e5e25a6ce75fa",
+    "kich_thuoc": 2945129,
+    "ngay_tai": "2026-10-22",
+    "url": "https://api.gdc.cancer.gov/data/1b5f413e-a8d1-4d10-92eb-7c4ae739ed81",
+    "ghi_chu": "Liu et al., Cell 2018, Table S1"
+  },
+  "PAM50_cBioPortal": {
+    "file": "_tam\\pancan\\cbioportal_brca_pancan_SUBTYPE.json",
+    "md5": "aaa69ab4c1db9ab893d5e953310b6c7a",
+    "kich_thuoc": 195463,
+    "ngay_tai": "2026-11-04",
+    "url": "https://www.cbioportal.org/api/studies/brca_tcga_pan_can_atlas_2018/clinical-data?clinicalDataType=PATIENT&attributeId=SUBTYPE&projection=SUMMARY",
+    "ghi_chu": "brca_tcga_pan_can_atlas_2018, SUBTYPE"
+  },
+  "TCGASubtype": {
+    "file": "_tam\\pancan\\TCGASubtype.20170308.tsv",
+    "md5": "d0a6054b799a8a61488636ad400c3af9",
+    "kich_thuoc": 603836,
+    "ngay_tai": "2026-11-04",
+    "url": "https://api.gdc.cancer.gov/data/0f31b768-7f67-4fc4-abc3-06ac5bd90bf0",
+    "ghi_chu": "GDC PanImmune, Subtype_mRNA"
+  },
+  "ABSOLUTE": {
+    "file": "_tam\\pancan\\TCGA_mastercalls.abs_tables_JSedit.fixed.txt",
+    "md5": "8ea2ca92c8ae58350538999dfa1174da",
+    "kich_thuoc": 901812,
+    "ngay_tai": "2026-11-04",
+    "url": "https://api.gdc.cancer.gov/data/4f277128-f793-4354-a13d-30cc7fe9f6b5",
+    "ghi_chu": "PanCanAtlas ABSOLUTE purity/ploidy"
+  },
+  "Thorsson2018_S1": {
+    "file": "_tam\\pancan\\Thorsson2018_TableS1_mmc2.xlsx",
+    "md5": "3f1705d92a3b6a82fdc9eae5450ebd03",
+    "kich_thuoc": 6525970,
+    "ngay_tai": "2026-11-04",
+    "url": "https://ars.els-cdn.com/content/image/1-s2.0-S1074761318301213-mmc2.xlsx",
+    "ghi_chu": "Immunity 2018;48:812, Table S1; chỉ dùng cột miễn dịch"
+  },
+  "miRBase_mature.fa": {
+    "file": "data\\mirbase_mature.fa",
+    "md5": "d0e61a9aebd712881e3ff6818bdd8125",
+    "kich_thuoc": 6276151,
+    "ngay_tai": "2026-10-22",
+    "url": "https://www.mirbase.org/download/mature.fa",
+    "ghi_chu": "bản mới nhất khi tải (v22.1); file không ghi số phiên bản"
+  },
+  "GENCODE_v36_GTF": {
+    "file": "_tam\\gencode\\gencode.v36.annotation.gtf.gz",
+    "md5": "c03931958d4572148650d62eb6dec41a",
+    "kich_thuoc": 44507458,
+    "ngay_tai": "2026-11-04",
+    "url": "https://ftp.ebi.ac.uk/pub/databases/gencode/Gencode_human/release_36/gencode.v36.annotation.gtf.gz",
+    "ghi_chu": "dùng để gắn cờ gen chồng lấn"
+  },
+  "METABRIC_cBioPortal": {
+    "file": "data\\brca_metabric\\data_clinical_patient.txt",
+    "md5": "8d78491e8a15c2c5133a052073720962",
+    "kich_thuoc": 408387,
+    "ngay_tai": "2025-05-06",
+    "url": "https://datahub.assets.cbioportal.org/brca_metabric.tar.gz",
+    "ghi_chu": "md5 của file .tar.gz nếu còn, không thì của data_clinical_patient.txt"
+  }
+}
