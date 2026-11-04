@@ -5,3 +5,5 @@ data/
 *.tar.gz
 .ipynb_checkpoints/
 _tam/
+__pycache__/
+.pytest_cache/
