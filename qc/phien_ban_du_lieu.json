@@ -62,5 +62,13 @@
     "ngay_tai": "2025-05-06",
     "url": "https://datahub.assets.cbioportal.org/brca_metabric.tar.gz",
     "ghi_chu": "md5 của file .tar.gz nếu còn, không thì của data_clinical_patient.txt"
+  },
+  "TOIL_RSEM_gene_tpm": {
+    "file": "_tam\\xena\\tcga_RSEM_gene_tpm.gz",
+    "md5": "e31439bcdeb9822cd44afd6b4ff819b9",
+    "kich_thuoc": 740772247,
+    "ngay_tai": "2026-11-04",
+    "url": "https://toil-xena-hub.s3.us-east-1.amazonaws.com/download/tcga_RSEM_gene_tpm.gz",
+    "ghi_chu": "UCSC Xena toil-xena-hub, GENCODE v23"
   }
 }
