@@ -39,6 +39,7 @@ Số liệu chính thức là số trong `qc/` do notebook ND1 sinh ra (chạy 0
 | 04/11/2026 | Bước 9 | METABRIC: TNBC theo 2 định nghĩa; cách đo PR, HER2; sự kiện RFS, OS | Không có PR_IHC, HER2_IHC → định nghĩa IHC chặt: 0 ca; tổ hợp: 276 ca. RFS 115 sự kiện (97 nếu cắt 5 năm); OS 146 (92); DSS 105 (85); theo dõi trung vị 14,6 năm. 18 ca ER bất đồng; 161 hóa trị; 64 điều trị nội tiết; PAM50: 151 Basal, 87 claudin-low (32%) |
 | 04/11/2026 | Bước 10 | Kết quả kiểm tra Synapse / EGA | Chưa có dữ liệu miRNA METABRIC |
 | 04/11/2026 | Bước 11 | QC thành phần mô | Cặp miRNA–mRNA âm có ý nghĩa (FDR < 0,05): tính trên 333 miRNA × 12.511 gen phân tích chính (sau D9): 165.509 (thô) → 57.566 (hiệu chỉnh miễn dịch, mô đệm, biểu mô, purity) → 6.267 (hiệu chỉnh 5 PC); cặp dương 196.113 → 65.745 → 19.297. (Trước D9, trên 12.825 gen: 168.213 → 59.219 → 6.368.) Điểm thành phần tính trên 17.383 gen chung hai nền tảng, đã bỏ gen D9 ở cả hai cohort. miR-200c-3p ~ ZEB1: −0,34 → −0,11; miR-21-5p ~ PDCD4: −0,22 → −0,22 (sau 5 PC: −0,19 và −0,11). 9 miRNA có \|ρ\| ≥ 0,5 với điểm miễn dịch (miR-150-5p, miR-142-5p, miR-4772-3p, miR-155-5p, miR-142-3p, miR-342-3p, miR-29c-3p, miR-146a-5p, miR-342-5p). PC2 (z theo gen) liên quan plate giải trình tự (p = 5·10⁻⁸) |
+| 08/11/2026 | Bước 12 | Mẫu mô lành TCGA-BRCA có cả miRNA và mRNA (tham chiếu ΔPCC, D11) | 104 mẫu, 104 bệnh nhân (11 người thuộc cohort TNBC), md5 khớp 208/208 file; ≥ 50 nên D11 được thực hiện. METABRIC (cBioPortal) không có mẫu lành |
 
 ## Mốc kiểm tra 11/2026 – quyết định
 
@@ -69,6 +70,21 @@ Vương chốt ngày 04/11/2026, trước khi tạo bất kỳ cặp nào ở ND
 - **Độ nhạy:** chạy lại bước chọn cặp ND2 với RSEM TPM cho toàn bộ gen (`data/b7_mr_log2tpm_rsem.parquet`: mã v23 ánh xạ sang v36 theo mã Ensembl gốc, đã chuyển log2(TPM + 0,001) về TPM, áp ngưỡng TPM ≥ 1 ở ≥50% mẫu; TOIL không có số đếm, nhưng với STAR điều kiện count chỉ loại thêm 4 gen). Báo cáo các cặp chỉ xuất hiện ở bản RSEM (ví dụ miR-21-5p–TPM1). Nếu nhiều cặp mạnh chỉ có ở bản RSEM thì cân nhắc lại việc dùng STAR làm nguồn chính.
 - **Lý do:** STAR – Counts bỏ các read mơ hồ ở vùng chồng lấn. Kiểm chứng: CD68 có ρ = 0,43 (STAR 0,04 so với RSEM 98,8 TPM), EIF4A1 có ρ = 0,39. Các gen đối chứng đều có ρ ≥ 0,98. Không chuyển hẳn sang RSEM vì đề cương và pipeline dùng STAR của GDC (có md5, phiên bản dữ liệu), còn TOIL là bộ tính lại của bên thứ ba trên chú thích cũ hơn; loại 314 gen chỉ mất 2,4% số gen.
 - **Ghi chú cho ND5:** immunedeconv chạy trên TPM của STAR sẽ ước lượng thiếu đại thực bào (CD68 có trong nhiều bộ gen đại thực bào). Chạy thêm trên RSEM TPM, hoặc chỉ kết luận khi hai nguồn nhất quán.
+
+## Quyết định 07–08/11/2026 (D5 bổ sung, D10, D11, thứ bậc phân tích)
+
+Vương chốt trước khi tạo bất kỳ cặp nào ở ND2. Các quyết định này không dùng dữ liệu sống còn.
+
+| Ngày | Mã | Quyết định |
+| --- | --- | --- |
+| 07/11/2026 | D5 | **f_rank** (hiệu phân vị trong mẫu) là đặc trưng cặp chính. f_raw và f_ref là phân tích độ nhạy; f_ref là cầu nối sang qPCR. Ngoại lệ: không có miRNA METABRIC thì f_ref làm chính |
+| 08/11/2026 | D10 | **Điểm hoạt động miRNA** = trung bình f_rank trên các đích đã qua bộ lọc của miRNA đó; chỉ tính cho miRNA có ≥ 5 đích; trọng số cố định (trung bình), không học từ kết cục; là bộ đặc trưng phụ. **Quy tắc dự phòng:** nếu trong bootstrap không có cặp nào được chọn ở ≥ 50% số lần, điểm hoạt động miRNA thay f_rank cặp làm đặc trưng chính. Hàm: `diem_hoat_dong_mirna` trong `src/mirna_bc/dac_trung.py` |
+| 08/11/2026 | D11 | **ΔPCC (Lee et al., 2023)** là đối chứng thăm dò. Đánh giá trong TCGA, tham chiếu là mẫu mô lành TCGA-BRCA có cả miRNA và mRNA. Bỏ nếu < 50 mẫu lành. Kiểm chứng ngoài chỉ khi METABRIC có miRNA và mRNA của mô lành. Quy ước: thang log2 (khác Lee 2023 dùng CPM thô), ΔPCC có dấu là biến thể chính, \|ΔPCC\| là biến thể phụ, cùng tập cặp đã qua bộ lọc ND2 với f_rank. Hàm: `delta_pcc` |
+| 08/11/2026 | Thứ bậc | (1) **Chính, một phép so sánh:** CoxNet + f_rank cặp so với biểu hiện gen thô và embedding. (2) **Phụ:** điểm hoạt động miRNA; đối chứng null (i)–(iv). (3) **Thăm dò:** ΔPCC, đặc trưng tích (Xu 2025), TabPFN, RSF/GBS; f_raw, f_ref là độ nhạy. Thiếu thời gian thì bỏ theo thứ tự ΔPCC → TabPFN → đặc trưng tích. Không bỏ điểm hoạt động miRNA |
+
+- **D9:** đã chốt ngày 04/11/2026 (mục D9 ở trên), không cần hỏi lại.
+- **Kết quả Bước 12 (08/11/2026):** 104 mẫu mô lành TCGA-BRCA có cả miRNA (isoform) và mRNA (STAR - Counts), thuộc 104 bệnh nhân (11 người trong cohort TNBC). Số này ≥ 50 nên **D11 được thực hiện**. Mẫu lành được xử lý cùng tập phân tử với mẫu u (333 miRNA, 12.511 gen); khi áp ngưỡng D8 ngay trên mẫu lành thì 90,1% số miRNA và 97,6% số gen này vẫn đạt. File: `data/b12_lanh_mir_log2rpm.parquet`, `data/b12_lanh_mr_log2tpm.parquet`. Gói cBioPortal của METABRIC chỉ có mẫu u (2.509 mẫu "Primary"), nên **ΔPCC không kiểm chứng ngoài được**.
+- **Đề cương:** đã cập nhật bằng tracked changes ở các mục 2.2, 2.4, 5.2, 5.4, 6.2, 6.4, 6.5, 8 và tài liệu tham khảo (27 thao tác, xem `docs/thay_doi_de_cuong_v2.md`). Metadata của Lee 2023, Hussen 2025 và Xu 2025 đã đối chiếu qua Crossref. Chưa đọc được toàn văn hai bài MDPI, nên các chi tiết phương pháp trong bảng 2.2 cần đối chiếu lại trước khi nộp.
 
 ## Mốc kiểm tra cuối 11/2026
 
