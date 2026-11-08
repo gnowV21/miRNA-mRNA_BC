@@ -7,3 +7,4 @@ data/
 _tam/
 __pycache__/
 .pytest_cache/
+*.pdf
