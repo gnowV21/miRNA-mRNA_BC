@@ -60,7 +60,8 @@ Nhiều nhóm đã chuyển từ signature miRNA đơn lẻ sang tương tác mi
 |---|---|---|
 | spongEffects | Điểm hoạt tính module ceRNA cho từng bệnh nhân | Dùng cho phân loại, chưa kiểm chứng tiên lượng xuyên nền tảng |
 | BONOBO (Genome Research, 2024) | Mạng đồng biểu hiện miRNA–mRNA đặc hiệu mẫu, liên hệ với sống còn theo phân nhóm ung thư vú | Mức pathway, không ra signature dùng được trên từng bệnh nhân mới |
-| Mô hình MTI cho TNBC (IJMS, 2025) | Chọn 8 miRNA qua tương quan điều hòa và ML | Đặc trưng vẫn là mức biểu hiện miRNA, không phải đặc trưng cặp |
+| Mô hình MTI cho TNBC (Xu et al., IJMS, 2025) | Chọn miRNA theo biểu hiện khác biệt u–lành; random forest trên 10 cặp miRNA–mRNA, đặc trưng là tích miRNA × mRNA × ρ | Cohort kiểm chứng 23 ca; AUC tính trên dữ liệu huấn luyện; đặc trưng tích phụ thuộc thang đo nên khó chuyển nền tảng |
+| Lee et al. (IJMS, 2023) | ΔPCC – độ thay đổi tương quan miRNA–RNA khi thêm một mẫu u vào tập mô lành; 10 loại ung thư TCGA | miRNA đo từ RNA-seq dài (không phải dạng trưởng thành), không dùng bằng chứng trình tự, lọc đặc trưng theo nhãn trước khi chia dữ liệu, tiên lượng không kiểm chứng ngoài |
 | Mạng ceRNA đặc hiệu bệnh nhân | Bộ ba lncRNA–miRNA–mRNA tiên lượng ở ung thư vú, gan, phổi | Không phân tích riêng TNBC, không so với mô hình nền tảng |
 
 ### 2.3. Mô hình nền tảng phiên mã trong tiên lượng ung thư
@@ -78,6 +79,8 @@ Nhiều nhóm đã chuyển từ signature miRNA đơn lẻ sang tương tác mi
 - Chưa có so sánh trực tiếp giữa đặc trưng sinh học đơn giản và embedding mô hình nền tảng khi chuyển nền tảng đo (RNA-seq sang microarray).
 
 - Việc chọn cặp tương tác trong các nghiên cứu tiên lượng chưa dựa trên công cụ dự đoán đích đã qua đánh giá với mẫu âm tính CLIP-seq.
+
+- Các đặc trưng cặp đã công bố thuộc dạng tích (Xu et al., 2025) hoặc độ lệch so với mô lành (Lee et al., 2023); chưa có so sánh các họ đặc trưng này trong cùng một thiết kế có kiểm chứng ngoài, trong khi kiểm chứng ngoài vẫn là rào cản chính khi đưa dấu ấn RNA vào lâm sàng (Hussen et al., 2025).
 
 **Chuẩn hóa cấp cohort**  là biến đổi giá trị của một bệnh nhân bằng các con số tính từ cả nhóm bệnh nhân, như trung bình và độ lệch chuẩn (z-score), phân bố chung (quantile normalization) hay ngưỡng trung vị. Khi đó, cùng một mẫu có thể được xếp là "biểu hiện cao" ở cohort này nhưng "biểu hiện thấp" ở cohort khác. Mô hình phụ thuộc vào chuẩn hóa cấp cohort vì vậy khó áp cho từng bệnh nhân đơn lẻ trên lâm sàng, và dễ lệch khi chuyển sang cohort đo bằng nền tảng khác.
 
@@ -188,6 +191,10 @@ Mục tiêu: có danh sách cặp ứng viên có bằng chứng tính toán (mi
 
 - Tính ba dạng đặc trưng cho từng bệnh nhân theo công thức ở mục 6.2: hiệu phân vị (chính), log-ratio, log-ratio chuẩn hóa theo phân tử tham chiếu (chọn không dùng kết cục).
 
+- Tính điểm hoạt động miRNA (D10, bộ đặc trưng phụ): trung bình f^rank trên các đích đã qua bộ lọc của mỗi miRNA, chỉ cho miRNA có ≥ 5 đích; trọng số cố định, không học từ kết cục.
+
+- Tính ΔPCC (D11, đối chứng thăm dò) trên cùng tập cặp, tham chiếu là 104 mẫu mô lành TCGA-BRCA có cả miRNA và mRNA (đếm ở Bước 12 của Nội dung 1), xử lý cùng cách và cùng tập phân tử với mẫu u.
+
 - Kiểm tra: so sánh phân bố đặc trưng giữa TCGA và METABRIC; đo tương quan giữa các cặp dùng chung miRNA hoặc chung gen (đa cộng tuyến).
 
 - Mở rộng nếu kịp: isomiR đầu 5′ (seed dịch chuyển nên tập đích khác; miRBind2 chấm trực tiếp trình tự isomiR; Telonis et al., 2015), tỷ lệ 5p/3p.
@@ -248,7 +255,7 @@ Mục tiêu: so sánh CoxNet trên 4 bộ đặc trưng (phân tích chính; 12 
 
 **Các bước thực hiện**
 
-- Viết kế hoạch phân tích trước khi chạy: chỉ số chính, tiêu chí chọn mô hình, ngưỡng nhóm nguy cơ. Lưu kèm ngày tháng để chứng minh không điều chỉnh sau khi thấy kết quả.
+- Viết kế hoạch phân tích trước khi chạy: chỉ số chính, tiêu chí chọn mô hình, ngưỡng nhóm nguy cơ. Lưu kèm ngày tháng để chứng minh không điều chỉnh sau khi thấy kết quả. Kế hoạch gồm thứ bậc phân tích đã chốt ngày 08/11/2026 (mục 6.4): một phép so sánh chính (CoxNet trên f^rank cặp so với biểu hiện gen thô và embedding), các phân tích phụ và thăm dò, quy tắc dự phòng D10 và thứ tự bỏ bớt khi thiếu thời gian.
 
 - Đánh giá nội bộ chính: bootstrap hiệu chỉnh lạc quan (200 lần, gồm toàn bộ pipeline); repeated stratified 5-fold CV (20 lần) làm phân tích phụ; chọn siêu tham số bằng CV lặp ở vòng trong theo quy tắc 1-SE.
 
@@ -375,6 +382,24 @@ Cả ba dạng đặc trưng tính được trên một bệnh nhân duy nhất,
 
 Với mô hình tuyến tính, log-ratio tương đương việc đưa miRNA và mRNA thành hai đặc trưng có hệ số ràng buộc ngược dấu; lợi thế nếu có đến từ giảm số tham số, và được kiểm tra trực tiếp bằng đối chứng (i). Độ lệch cộng thêm theo nền tảng chỉ dịch điểm nguy cơ một hằng số; thứ làm hỏng khi chuyển nền tảng là độ dốc và ngưỡng tuyệt đối. Vì vậy đặc trưng chính dùng hiệu phân vị trong mẫu (cùng họ với relative expression ordering / k-TSP; Geman et al., 2004; Tan et al., 2005), bất biến với mọi biến đổi đơn điệu.
 
+**Ngoại lệ (D5):**  nếu không có dữ liệu miRNA METABRIC, f^ref là đặc trưng chính, vì khi đó không kiểm chứng được tính bất biến xuyên nền tảng của f^rank và hướng chuyển giao còn lại là qPCR (mục 10).
+
+**Điểm hoạt động miRNA**  (D10, bộ đặc trưng phụ). Với miRNA i có tập đích *T* ᵢ đã qua bộ lọc, chỉ tính khi |*T* ᵢ| ≥ 5:
+
+    A_i(s) = \frac{1}{|T_i|} \sum_{j \in T_i} f^{\mathrm{rank}}_{ij}(s)
+
+Trọng số cố định (trung bình), không học từ kết cục; A bất biến với thang đo như f^rank và ít phụ thuộc vào việc chọn đúng từng cặp. **Quy tắc dự phòng:**  nếu trong bootstrap không có cặp nào được chọn ở ≥ 50% số lần, điểm hoạt động miRNA thay f^rank cặp làm đặc trưng chính.
+
+**ΔPCC**  (D11, đối chứng thăm dò; Lee et al., 2023). Độ thay đổi hệ số tương quan Pearson của cặp khi thêm mẫu u s vào tập *N*  gồm n mẫu mô lành:
+
+    \Delta\mathrm{PCC}_{ij}(s) = r_{ij}\big(\mathcal{N} \cup \{s\}\big) - r_{ij}\big(\mathcal{N}\big)
+
+Lee et al. (2023) dùng |ΔPCC| trên CPM. Đề tài tính trên thang log2 (cùng đầu vào với f^raw), vì Pearson trên CPM thô bị vài giá trị cực đoan chi phối; ΔPCC có dấu là biến thể chính, |ΔPCC| là biến thể phụ; tập cặp là tập đã qua bộ lọc ở trên, để so sánh công bằng với f^rank. Theo hàm ảnh hưởng của hệ số tương quan, với z chuẩn hóa theo trung bình và độ lệch chuẩn của mô lành và r = rᵢⱼ(*N* ):
+
+    \Delta\mathrm{PCC}_{ij}(s) \approx \frac{z_i(s)\, z_j(s) - r\,\big(z_i(s)^2 + z_j(s)^2\big)/2}{n + 1}
+
+Như vậy ΔPCC gần với tích hai giá trị z so với mô lành, tức cùng họ với đặc trưng tích miRNA × mRNA × ρ của Xu et al. (2025), nhưng phụ thuộc vào trung bình và độ lệch chuẩn của một cohort tham chiếu. Đặc trưng tích là đối chứng thăm dò thứ hai.
+
 ### 6.3. Đặc trưng so sánh
 
 - **Embedding BulkRNABert.**  Mô hình transformer tiền huấn luyện trên RNA-seq bulk, có sẵn trên Hugging Face. Chạy suy luận (không huấn luyện) để lấy vector biểu diễn cho mỗi bệnh nhân. Dùng phiên bản tiền huấn luyện trên dữ liệu không ung thư (GTEx, ENCODE), không có TCGA, để tránh rò rỉ thông tin; cần xác minh trọng số của phiên bản này được công bố. Nếu không có, thay bằng embedding scFoundation, mô hình tiền huấn luyện trên dữ liệu đơn bào, không có TCGA.
@@ -399,6 +424,10 @@ Với mô hình tuyến tính, log-ratio tương đương việc đưa miRNA và
 
 - CoxNet trên 4 bộ đặc trưng là phân tích chính; 12 tổ hợp 3 mô hình × 4 bộ đặc trưng là phân tích thăm dò, đánh giá trên cùng các mẫu bootstrap và cùng cách chia dữ liệu để so sánh công bằng. Mô hình cuối chọn theo quy tắc 1-SE; RSF và Gradient Boosting dùng không gian siêu tham số bảo thủ.
 
+- **Thứ bậc phân tích (đăng ký trước, 08/11/2026).**  (1) Chính, một phép so sánh: CoxNet trên f^rank cặp so với biểu hiện gen thô và embedding. (2) Phụ: điểm hoạt động miRNA; đối chứng null (i)–(iv) ở mục 6.5. (3) Thăm dò: ΔPCC, đặc trưng tích (Xu et al., 2025), TabPFN, RSF và GBS; f^raw và f^ref là phân tích độ nhạy.
+
+- **Quy tắc dự phòng và thứ tự bỏ bớt.**  Nếu trong bootstrap không có cặp nào được chọn ở ≥ 50% số lần, điểm hoạt động miRNA thay f^rank cặp làm đặc trưng chính (D10). Thiếu thời gian thì bỏ theo thứ tự: ΔPCC → TabPFN → đặc trưng tích; không bỏ điểm hoạt động miRNA.
+
 ### 6.5. Đánh giá hiệu năng
 
 - **C-index**  (Harrell và Uno; Uno cắt tại τ = 3 năm): khả năng xếp đúng thứ tự bệnh nhân nào tiến triển trước.
@@ -418,6 +447,8 @@ Với mô hình tuyến tính, log-ratio tương đương việc đưa miRNA và
 - **Đối chứng null:**  (i) cùng miRNA và gen đưa vào thành đặc trưng riêng; (ii) cặp ngẫu nhiên giữ miRNA, thay gen bằng gen không phải đích cùng thập phân vị biểu hiện (200 lần, p thực nghiệm); (iii) tuổi, giai đoạn, hạch + điểm miễn dịch + purity; (iv) (iii) + đặc trưng cặp.
 
 - **Đánh giá nội bộ:**  bootstrap hiệu chỉnh lạc quan; ở METABRIC, theo dõi được cắt tại 5 năm (kiểm duyệt hành chính) để khớp với TCGA.
+
+- **Đối chứng thăm dò:**  ΔPCC (Lee et al., 2023; tham chiếu mô lành TCGA-BRCA, bỏ nếu < 50 mẫu) và đặc trưng tích (Xu et al., 2025), tính trên cùng tập cặp và đánh giá cùng cách với f^rank; không dùng để chọn mô hình cuối. METABRIC không có mẫu mô lành trong gói công khai nên ΔPCC chỉ đánh giá trong TCGA.
 
 - Báo cáo theo hướng dẫn TRIPOD+AI.
 
@@ -498,6 +529,8 @@ Rủi ro lớn nhất là cỡ mẫu TNBC nhỏ trong TCGA; nó quyết định 
 | miRNA-seq mang tính thành phần (miR-21-5p chiếm khoảng 24,8% RPM) | Trung bình | Đặc trưng thay đổi khi miR-21 thay đổi | Ngưỡng theo read; độ nhạy bỏ miR-21, upper-quartile, DESeq2; đặc trưng hiệu phân vị |
 | Lỗi định lượng gen chồng lấn trong STAR – Counts | Trung bình | Gen biểu hiện cao nhưng TPM thấp bất thường (CD68, EIF4A1); đối chiếu RSEM (11/2026): 726 gen bị STAR đếm thiếu từ 4 lần trở lên | Loại 314 gen bị STAR định lượng sai (đối chiếu RSEM của TOIL) khỏi phân tích chính: ứng viên tạo cặp, tập gen tính phân vị f_rank và điểm thành phần ở cả hai cohort, baseline gen thô, ứng viên gen tham chiếu f_ref; giữ trong đầu vào ND3. Độ nhạy: chọn cặp lại bằng RSEM TPM (D9) |
 | Hai cohort không đồng nhất (LAR, claudin-low, ER bất đồng, thời kỳ điều trị) | Trung bình | Phân bố PAM50, cờ ER, điều trị khác nhau (METABRIC: 32% claudin-low; 161/276 ca hóa trị) | Bảng 1; hiệu chỉnh hóa trị; phân tích độ nhạy loại ca bất đồng |
+| Signature cặp không ổn định do ít sự kiện | Cao | Không có cặp nào được chọn ở ≥ 50% số lần bootstrap | Quy tắc dự phòng D10: điểm hoạt động miRNA thay f^rank cặp làm đặc trưng chính |
+| Không đủ mẫu mô lành làm tham chiếu cho ΔPCC | Thấp | < 50 mẫu lành TCGA-BRCA có cả miRNA và mRNA (11/2026: có 104 mẫu) | Bỏ ΔPCC (D11). METABRIC không có mẫu lành trong gói cBioPortal nên ΔPCC không kiểm chứng ngoài được |
 | Đặc trưng cặp không vượt embedding mô hình nền tảng | Không phải rủi ro | Kết quả ngược giả thuyết | Vẫn là kết quả có giá trị; báo cáo trung thực, phân tích nguyên nhân |
 
 ## 9. Kế hoạch thực hiện
@@ -574,9 +607,13 @@ Tài liệu có liên kết đã được mở và kiểm tra; tài liệu khôn
 
 - Bayesian inference of sample-specific coexpression networks. *Genome Research* . 2024;34:1397–1410.
 
-- Unveiling novel miRNA–mRNA interactions and their prognostic roles in triple-negative breast cancer. *International Journal of Molecular Sciences* . 2025;26(5):1916.
+- Xu J, et al. Unveiling novel miRNA–mRNA interactions and their prognostic roles in triple-negative breast cancer: insights into miR-210, miR-183, miR-21, and miR-181b. *International Journal of Molecular Sciences* . 2025;26(5):1916. doi:10.3390/ijms26051916
 
 - Constructing lncRNA-miRNA-mRNA networks specific to individual cancer patients and finding prognostic biomarkers.
+
+- Lee S, Cho M, Park B, Han K. Finding miRNA–RNA network biomarkers for predicting metastasis and prognosis in cancer. *International Journal of Molecular Sciences* . 2023;24(5):5052. doi:10.3390/ijms24055052
+
+- Hussen BM, Abdullah SR, Hidayat HJ, Samsami M, Taheri M. Integrating AI and RNA biomarkers in cancer: advances in diagnostics and targeted therapies. *Cell Communication and Signaling* . 2025;23:430. doi:10.1186/s12964-025-02434-2
 
 **Mô hình nền tảng**
 

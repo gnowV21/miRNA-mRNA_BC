@@ -1,10 +1,10 @@
 # Thay đổi đề cương v2 (mốc kiểm tra 11/2026)
 
 - **File:** `docs/proposal_miRNA-mRNA_v2_theo_doi_thay_doi.docx` (tracked changes, tác giả "Claude Code"). Bản gốc `docs/proposal_miRNA-mRNA.docx` không bị sửa.
-- **Số thao tác:** 117 (215 phần tử `w:ins`, 37 phần tử `w:del`).
+- **Số thao tác:** 117 (đợt 04/11/2026) + 27 (đợt 08/11/2026: D5, D10, D11, thứ bậc phân tích); tổng 292 phần tử `w:ins`, 39 phần tử `w:del`. Đợt 08/11 đánh số lại `w:id` của mọi phần tử sửa cho duy nhất (bản 04/11 có 9 id trùng do sao chép hàng bảng).
 - **Bản đọc soát (đã chấp nhận thay đổi):** `docs/proposal_miRNA-mRNA_v2_sach.md`. Máy chưa có pandoc nên bản này được xuất bằng script Python (bỏ phần xóa, giữ phần chèn). Chưa xuất PDF vì máy chưa có LibreOffice.
 - **Số liệu** lấy tự động từ `qc/` (notebook ND1 chạy ngày 04/11/2026), không chép tay.
-- **Mã quyết định** D1–D8: xem mục "Mốc kiểm tra 11/2026 – quyết định" trong `nhat_ky.md`.
+- **Mã quyết định** D1–D11: xem mục "Mốc kiểm tra 11/2026 – quyết định" (D1–D9) và "Quyết định 07–08/11/2026" (D5 bổ sung, D10, D11, thứ bậc) trong `nhat_ky.md`.
 
 ## Khác với yêu cầu
 
@@ -138,3 +138,41 @@
 | Tài liệu tham khảo | (đoạn mới) | Uno H, et al. On the C-statistics for evaluating overall adequacy of risk prediction procedures with censored survival data. Statistics in Medicine. 2011;30(10):1105–1117. | Trích dẫn mới; metadata đối chiếu qua DOI |  |
 | Tài liệu tham khảo | (đoạn mới) | Riley RD, et al. Calculating the sample size required for developing a clinical prediction model. BMJ. 2020;368:m441. | Trích dẫn mới; metadata đối chiếu qua DOI |  |
 | Tài liệu tham khảo | (đoạn mới) | Gloor GB, et al. Microbiome datasets are compositional: and this is not optional. Frontiers in Microbiology. 2017;8:2224. | Trích dẫn mới; metadata đối chiếu qua DOI |  |
+
+## Đợt 08/11/2026 – D5 (ngoại lệ), D10, D11, thứ bậc phân tích
+
+- **Mục 1:** đặc trưng chính f_rank (D5) đã có từ đợt 04/11/2026, không sửa thêm. Ngoại lệ của D5 (không có miRNA METABRIC thì f_ref làm chính) được ghi ở mục 6.2.
+- **Mục 2.2, dòng Xu 2025:** mô tả cũ ("chọn 8 miRNA", "đặc trưng vẫn là mức biểu hiện miRNA") không khớp với tóm tắt bài (Crossref): bài dùng 4 miRNA, 8 gen đích và random forest trên 10 cặp miRNA–mRNA. Đã sửa theo yêu cầu.
+- **Metadata** của Lee 2023, Hussen 2025 và Xu 2025 đối chiếu qua Crossref ngày 08/11/2026. Trang MDPI chặn truy cập tự động nên **chưa đọc được toàn văn**; các chi tiết phương pháp ghi trong bảng 2.2 (CPM, |ΔPCC|, 10 loại ung thư, lọc theo nhãn trước khi chia dữ liệu, cohort kiểm chứng 23 ca, AUC trên dữ liệu huấn luyện) lấy theo yêu cầu của Vương, cần đối chiếu toàn văn trước khi nộp.
+- **Tài liệu số 12** (Xu 2025, IJMS 26:1916) đã có trong danh mục: chỉ bổ sung tác giả, tiêu đề đầy đủ và DOI, không thêm trùng.
+- **Hussen 2025** là bài tổng quan (AI và dấu ấn RNA trong ung thư), được trích ở mục 2.4 cho ý kiểm chứng ngoài là rào cản chính.
+
+| Mục | Nội dung cũ | Nội dung mới | Lý do | Mã |
+|---|---|---|---|---|
+| 2.2 Tổng quan – bảng – dòng Xu 2025 | (sau «(») | Xu et al.,  | Ghi tác giả |  |
+| 2.2 Tổng quan – bảng – dòng Xu 2025 | Chọn 8 miRNA qua tương quan điều hòa và ML | Chọn miRNA theo biểu hiện khác biệt u–lành; random forest trên 10 cặp miRNA–mRNA, đặc trưng là tích miRNA × mRNA × ρ | Mô tả cũ chưa đúng: bài dùng đặc trưng cặp dạng tích |  |
+| 2.2 Tổng quan – bảng – dòng Xu 2025 | Đặc trưng vẫn là mức biểu hiện miRNA, không phải đặc trưng cặp | Cohort kiểm chứng 23 ca; AUC tính trên dữ liệu huấn luyện; đặc trưng tích phụ thuộc thang đo nên khó chuyển nền tảng | Mở rộng giới hạn |  |
+| 2.2 Tổng quan – bảng | (hàng mới) | Lee et al. (IJMS, 2023) \| ΔPCC – độ thay đổi tương quan miRNA–RNA khi thêm một mẫu u vào tập mô lành; 10 loại ung thư TCGA \| miRNA đo từ RNA-seq dài (không phải dạng trưởng thành), không dùng bằng chứng trình tự, lọc đặc trưng theo nhãn trước khi chia dữ liệu, tiên lượng không kiểm chứng ngoài | Đối chứng thăm dò ΔPCC | D11 |
+| 2.4 Khoảng trống | (đoạn mới) | Các đặc trưng cặp đã công bố thuộc dạng tích (Xu et al., 2025) hoặc độ lệch so với mô lành (Lee et al., 2023); chưa có so sánh các họ đặc trưng này trong cùng một thiết kế có kiểm chứng ngoài, trong khi kiểm chứng ngoài vẫn là rào cản chính khi đưa dấu ấn RNA vào lâm sàng (Hussen et al., 2025). | Định vị so với Lee 2023 và Xu 2025 | D11 |
+| 5.2 Nội dung 2 – các bước | (đoạn mới) | Tính điểm hoạt động miRNA (D10, bộ đặc trưng phụ): trung bình f^rank trên các đích đã qua bộ lọc của mỗi miRNA, chỉ cho miRNA có ≥ 5 đích; trọng số cố định, không học từ kết cục. | Điểm hoạt động miRNA | D10 |
+| 5.2 Nội dung 2 – các bước | (đoạn mới) | Tính ΔPCC (D11, đối chứng thăm dò) trên cùng tập cặp, tham chiếu là 104 mẫu mô lành TCGA-BRCA có cả miRNA và mRNA (đếm ở Bước 12 của Nội dung 1), xử lý cùng cách và cùng tập phân tử với mẫu u. | ΔPCC dùng cùng tập cặp với f_rank | D11 |
+| 5.4 Nội dung 4 – các bước – bước 1 | (cuối đoạn) |  Kế hoạch gồm thứ bậc phân tích đã chốt ngày 08/11/2026 (mục 6.4): một phép so sánh chính (CoxNet trên f^rank cặp so với biểu hiện gen thô và embedding), các phân tích phụ và thăm dò, quy tắc dự phòng D10 và thứ tự bỏ bớt khi thiếu thời gian. | Thứ bậc phân tích đăng ký trước | D10, D11 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | Ngoại lệ (D5): nếu không có dữ liệu miRNA METABRIC, f^ref là đặc trưng chính, vì khi đó không kiểm chứng được tính bất biến xuyên nền tảng của f^rank và hướng chuyển giao còn lại là qPCR (mục 10). | Ngoại lệ của D5 | D5 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | Điểm hoạt động miRNA (D10, bộ đặc trưng phụ). Với miRNA i có tập đích Tᵢ đã qua bộ lọc, chỉ tính khi \|Tᵢ\| ≥ 5: | Định nghĩa | D10 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | A_i(s) = \frac{1}{\|T_i\|} \sum_{j \in T_i} f^{\mathrm{rank}}_{ij}(s) | Công thức | D10 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | Trọng số cố định (trung bình), không học từ kết cục; A bất biến với thang đo như f^rank và ít phụ thuộc vào việc chọn đúng từng cặp. Quy tắc dự phòng: nếu trong bootstrap không có cặp nào được chọn ở ≥ 50% số lần, điểm hoạt động miRNA thay f^rank cặp làm đặc trưng chính. | Quy tắc dự phòng | D10 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | ΔPCC (D11, đối chứng thăm dò; Lee et al., 2023). Độ thay đổi hệ số tương quan Pearson của cặp khi thêm mẫu u s vào tập N gồm n mẫu mô lành: | Định nghĩa | D11 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | \Delta\mathrm{PCC}_{ij}(s) = r_{ij}\big(\mathcal{N} \cup \{s\}\big) - r_{ij}\big(\mathcal{N}\big) | Công thức gốc Lee 2023 | D11 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | Lee et al. (2023) dùng \|ΔPCC\| trên CPM. Đề tài tính trên thang log2 (cùng đầu vào với f^raw), vì Pearson trên CPM thô bị vài giá trị cực đoan chi phối; ΔPCC có dấu là biến thể chính, \|ΔPCC\| là biến thể phụ; tập cặp là tập đã qua bộ lọc ở trên, để so sánh công bằng với f^rank. Theo hàm ảnh hưởng của hệ số tương quan, với z chuẩn hóa theo trung bình và độ lệch chuẩn của mô lành và r = rᵢⱼ(N): | Quy ước D11 | D11 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | \Delta\mathrm{PCC}_{ij}(s) \approx \frac{z_i(s)\, z_j(s) - r\,\big(z_i(s)^2 + z_j(s)^2\big)/2}{n + 1} | Dạng xấp xỉ bằng hàm ảnh hưởng | D11 |
+| 6.2 Xây dựng đặc trưng cặp | (đoạn mới) | Như vậy ΔPCC gần với tích hai giá trị z so với mô lành, tức cùng họ với đặc trưng tích miRNA × mRNA × ρ của Xu et al. (2025), nhưng phụ thuộc vào trung bình và độ lệch chuẩn của một cohort tham chiếu. Đặc trưng tích là đối chứng thăm dò thứ hai. | Liên hệ ΔPCC với đặc trưng tích | D11 |
+| 6.4 Mô hình hóa | (đoạn mới) | Thứ bậc phân tích (đăng ký trước, 08/11/2026). (1) Chính, một phép so sánh: CoxNet trên f^rank cặp so với biểu hiện gen thô và embedding. (2) Phụ: điểm hoạt động miRNA; đối chứng null (i)–(iv) ở mục 6.5. (3) Thăm dò: ΔPCC, đặc trưng tích (Xu et al., 2025), TabPFN, RSF và GBS; f^raw và f^ref là phân tích độ nhạy. | Thứ bậc phân tích | D5, D10, D11 |
+| 6.4 Mô hình hóa | (đoạn mới) | Quy tắc dự phòng và thứ tự bỏ bớt. Nếu trong bootstrap không có cặp nào được chọn ở ≥ 50% số lần, điểm hoạt động miRNA thay f^rank cặp làm đặc trưng chính (D10). Thiếu thời gian thì bỏ theo thứ tự: ΔPCC → TabPFN → đặc trưng tích; không bỏ điểm hoạt động miRNA. | Quy tắc dự phòng D10 | D10 |
+| 6.5 Đánh giá hiệu năng | (đoạn mới) | Đối chứng thăm dò: ΔPCC (Lee et al., 2023; tham chiếu mô lành TCGA-BRCA, bỏ nếu < 50 mẫu) và đặc trưng tích (Xu et al., 2025), tính trên cùng tập cặp và đánh giá cùng cách với f^rank; không dùng để chọn mô hình cuối. METABRIC không có mẫu mô lành trong gói công khai nên ΔPCC chỉ đánh giá trong TCGA. | Thêm đối chứng thăm dò | D11 |
+| 8. Rủi ro – rủi ro mới | (hàng mới) | Signature cặp không ổn định do ít sự kiện \| Cao \| Không có cặp nào được chọn ở ≥ 50% số lần bootstrap \| Quy tắc dự phòng D10: điểm hoạt động miRNA thay f^rank cặp làm đặc trưng chính | Quyết định 08/11/2026 | D10 |
+| 8. Rủi ro – rủi ro mới | (hàng mới) | Không đủ mẫu mô lành làm tham chiếu cho ΔPCC \| Thấp \| < 50 mẫu lành TCGA-BRCA có cả miRNA và mRNA (11/2026: có 104 mẫu) \| Bỏ ΔPCC (D11). METABRIC không có mẫu lành trong gói cBioPortal nên ΔPCC không kiểm chứng ngoài được | Quyết định 08/11/2026 | D11 |
+| Tài liệu tham khảo | (đầu đoạn) | Xu J, et al.  | Bổ sung tác giả (Crossref) |  |
+| Tài liệu tham khảo | (sau «triple-negative breast cancer») | : insights into miR-210, miR-183, miR-21, and miR-181b | Tiêu đề đầy đủ (Crossref) |  |
+| Tài liệu tham khảo | (cuối đoạn) |  doi:10.3390/ijms26051916 | Bổ sung DOI; đã có trong danh mục, không thêm trùng |  |
+| Tài liệu tham khảo | (đoạn mới) | Lee S, Cho M, Park B, Han K. Finding miRNA–RNA network biomarkers for predicting metastasis and prognosis in cancer. International Journal of Molecular Sciences. 2023;24(5):5052. doi:10.3390/ijms24055052 | Trích dẫn mới; metadata đối chiếu Crossref | D11 |
+| Tài liệu tham khảo | (đoạn mới) | Hussen BM, Abdullah SR, Hidayat HJ, Samsami M, Taheri M. Integrating AI and RNA biomarkers in cancer: advances in diagnostics and targeted therapies. Cell Communication and Signaling. 2025;23:430. doi:10.1186/s12964-025-02434-2 | Trích dẫn mới; metadata đối chiếu Crossref | D11 |
